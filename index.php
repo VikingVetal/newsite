@@ -5,5 +5,5 @@
 //echo count(explode(" ","good morning"));
 //var_export(explode(" ","good morning"));
 //var_dump(explode(" ","good morning"));
-
+echo 7/3;
  ?>
