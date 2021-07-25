@@ -1,65 +1,113 @@
 <?php
-//Homework 2 lesson
+//посчитать длину массива
+$arr = [1, 2, 3, 7, 31, 4, 1, 8, 6];
+echo 'Длина массива ='. count($arr).' ' .'символов <br /> ';
 
-//Действия с числами
-echo "<b>Действия с числами </b><br />";
-echo "Остаток деления : 7/3 =". 7 % 3 ."<br />";
-//echo "Остаток деления : 7/3 =". 7/3 ."<br />";
-echo "Целая часть сложения 7 и 7,15 =". intval(7+7.15) . "<br />";
+//получить сумму 4,5,6 элемента
+echo 'Сумма 4, 5, 6 элемента ='. $arr[3] + $arr[4] + $arr[5]."<br />";
 
-$num = 25;
-echo "Корень из 25 =" .sqrt($num) ."<br />";
 
-//Действия со строками
-echo "<b>Работа со строками</b> <br />";
-$text = "десять негритят пошли купаться в море";
-$date = explode(" ", $text);
-echo "4-е слово из фразы : " .$date[3]."<br />";
-echo "17-й символ из фразы :". mb_substr($text, 16, 1)."<br />";
-echo mb_convert_case( $text, MB_CASE_TITLE, 'UTF-8').'<br />'; // ucwords не работает
-echo "Длина строки = " .mb_strlen($text). " "."символов <br /> ";
-
-//bool
-echo "<b>Действия с логическими значениями</b> <br />";
-if (1 == TRUE) {
-    echo "Утверждение true равно 1 <br />";
+//переместить первые 4 элемента массива в конец массива
+$count = 0;
+foreach ($arr as $key => $value) {
+  $arr[] = array_shift($arr);
+  $count++;
+  if ($count>=4){
+    break;
   }
-  else {
-    echo "Утверждение не верно <br />";
-  }
+}
+var_dump($arr);
 
-  if (FALSE === 0) {
-      echo "Утверждение false тождественно 0 <br />";
+
+// Второй блок
+echo "<br /> <b>Второй блок </b> ";
+
+$firstArr = [
+  'one' => 1,
+  'two' => 2,
+  'three' => 3,
+  'foure' => 5,
+  'five' => 12,
+];
+
+$secondArr = [
+  'one' => 1,
+  'seven' => 22,
+  'three' => 32,
+  'foure' => 5,
+  'five' => 13,
+  'six' => 37,
+];
+
+//найти все элементы которые присутствую в первом и отсутствуют во втором
+echo "<br /> найти все элементы которые присутствую в первом и отсутствуют во втором :" . ' ';
+$result = array_diff($firstArr, $secondArr);
+print_r($result);
+
+
+//найти все элементы которые отсутствуют во втором  массиве и присутствуют в первом
+echo "<br /> найти все элементы которые отсутствуют во втором  массиве и присутствуют в первом :" . ' ';
+$result2 = array_diff($secondArr, $firstArr);
+print_r($result2);
+
+
+//найти все элементы значения которых совпадают
+echo "<br /> найти все элементы значения которых совпадают :" . ' ';
+$result3 = array_intersect($firstArr, $secondArr);
+print_r($result3) ."<br />";
+
+//найти все элементы значения которых отличается
+echo "<br /> найти все элементы значения которых отличаеться :" . ' ';
+$result4 = array_merge($result,$result2);
+print_r($result4);
+
+
+// Третий блок
+echo "<br /> <b> Третий блок </b> ";
+$lasttArr = [
+
+  'one' => 1,
+  'two' => [
+    'one' => 1,
+    'seven' => 22,
+    'three' => 32,
+  ],
+
+  'three' => [
+    'one' => 1,
+    'two' => 2,
+  ],
+
+  'foure' => 5,
+  'five' => [
+   'three' => 32,
+   'foure' => 5,
+   'five' => 12,
+],
+];
+
+//получить все вторые элементы вложенных массивов
+echo "<br /> получить все вторые элементы вложенных массивов = ";
+var_dump($lasttArr['two'],['three'],['five']);
+
+
+//получить общее количество элементов в массиве
+echo "<br /> общее количество элементов в массиве = ";
+echo count($lasttArr, COUNT_RECURSIVE);
+
+//получить сумму всех значений в массиве
+function sumRecursive($lasttArr){
+  $sum = 0;
+  foreach ($lasttArr as $key => $value) {
+    if(is_array($value)){
+      $sum += sumRecursive ($value);
+    } else{
+      $sum += $value;
     }
-    else {
-      echo "Утверждение false тождественно 0 не верно <br />";
-    }
-
-    //Какая строка длиннее three - три
-
-$str1 = "three";
-$str2 = "три";
-$results1 = mb_strlen($str1);
-$results2 = mb_strlen($str2);
-if ( $results1 > $results2 )
-  {
-    echo "Строка $str1 больше, в ней $results1 символов";
   }
-  else {
-    echo "Строка $str2 больше,в ней $results2 символов";
-  }
+  return $sum;
+}
+echo "<br />получить сумму всех значений в массиве = ";
+print_r(sumRecursive($lasttArr));
 
-// какое число больше ?
-$a = 125*13+7;
-$b = 223+28*2;
-//echo "<br />" . $a . " ". $b;
-if ( $a > $b )
-  {
-    echo "<br /> Сумма 125*13+7 больше, так как она = $a, а сумма 223+28*2 = $b ";
-  }
-  else {
-    echo "<br /> Сумма 223+28*2; больше, так как она = $b, а сумма 125*13+7 = $a";
-  }
-
-
- ?>
+?>
