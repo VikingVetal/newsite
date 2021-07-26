@@ -65,7 +65,6 @@ print_r($result4);
 // Третий блок
 echo "<br /> <b> Третий блок </b> ";
 $lasttArr = [
-
   'one' => 1,
   'two' => [
     'one' => 1,
@@ -88,25 +87,42 @@ $lasttArr = [
 
 //получить все вторые элементы вложенных массивов
 echo "<br /> получить все вторые элементы вложенных массивов : ";
-//var_dump($lasttArr['two'],['three'],['five']);
-// function foo($lasttArr) {
-//   foreach ($lasttArr as $k => $v) {
-//     if (is_array($v)) {
-//       foo($v);
-//     }
-//     else {
-//       echo "{$k} = {$v}<br>";
-//     }
-//   }
-// }
-// foo($lasttArr);
+$k=0;
+// вывел всё из вложеных массивов
+// foreach($lasttArr['two'] as $key => $value)
+//     echo $value, '<br>';
+// foreach($lasttArr['three'] as $value)
+//     echo $value, '<br>';
+// foreach($lasttArr['five'] as $value)
+//     echo $value, '<br>';
 
-foreach($lasttArr['two'] as $value)
-    echo $value, '<br>';
-foreach($lasttArr['three'] as $value)
-    echo $value, '<br>';
-foreach($lasttArr['five'] as $value)
-    echo $value, '<br>';
+function secondElement($lasttArr) {
+    $result = [];
+    foreach ($lasttArr as $key => $value) {
+        if (is_array($value)){
+            $result[] = array_values($value)[1];
+        }
+    }
+    return $result;
+}
+print_r(secondElement($lasttArr));
+
+
+
+//var_dump($lasttArr['two'],['three'],['five']);
+
+//вывел все данные из массивов
+    // function foo($lasttArr) {
+    //   foreach ($lasttArr as $k => $v) {
+    //     if (is_array($v)) {
+    //       foo($v);
+    //     }
+    //     else {
+    //       echo "{$k} = {$v}<br>";
+    //     }
+    //   }
+    // }
+    // foo($lasttArr);
 
 
 
