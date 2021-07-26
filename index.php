@@ -87,8 +87,20 @@ $lasttArr = [
 ];
 
 //получить все вторые элементы вложенных массивов
-echo "<br /> получить все вторые элементы вложенных массивов = ";
-var_dump($lasttArr['two'],['three'],['five']);
+echo "<br /> получить все вторые элементы вложенных массивов : ";
+//var_dump($lasttArr['two'],['three'],['five']);
+function foo($arr) {
+  foreach ($arr as $k => $v) {
+    if (is_array($v)) {
+      foo($v);
+    }
+    else {
+      echo "{$k} = {$v}<br>";
+    }
+  }
+}
+foo($lasttArr);
+
 
 
 //получить общее количество элементов в массиве
