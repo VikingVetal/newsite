@@ -1,148 +1,76 @@
 <?php
-//посчитать длину массива
-$arr = [1, 2, 3, 7, 31, 4, 1, 8, 6];
-echo 'Длина массива ='. count($arr).' ' .'символов <br /> ';
+echo "<b> Первое задание</b><br />";
+// Создать функцию определяющую какой тип данных ей передан и выводящей соответствующее сообщение.
+$data = array(7, 6, 9., NULL, new stdClass, 'строка');
 
-//получить сумму 4,5,6 элемента
-echo 'Сумма 4, 5, 6 элемента ='. $arr[3] + $arr[4] + $arr[5]."<br />";
+foreach ($data as $value) {
+  dataType($value);
+}
 
+function dataType($val){
+  echo gettype($val). "<br />";
+}
 
-//переместить первые 4 элемента массива в конец массива
-$count = 0;
-foreach ($arr as $key => $value) {
-  $arr[] = array_shift($arr);
-  $count++;
-  if ($count>=4){
-    break;
+//Второе задание
+//Создать функцию которая считает все буквы b в переданной строке, в случае если передается не строка функция должна возвращать false
+echo "<b> Второе задание</b><br />";
+
+echo $data = "Brown bear, red book, best, studio, common, branch.". '<br />';//  строка для примера
+$b = 'b';
+
+everyB($data, $b);
+
+function everyB($string, $find){
+  if(gettype($string)=== 'string') {
+    echo "Функцию которая считает все буквы b в переданной строке. в данной строке : ". substr_count($string, $find).' '.'символов b';
+  } else {
+    echo 'false';
   }
 }
-var_dump($arr);
+//ubstr_count(mb_strtolower($string), $find) // как вариант с регистром, но после стал показывать на 1 больше
+echo "<br />";
 
 
-// Второй блок
-echo "<br /> <b>Второй блок </b> ";
 
-$firstArr = [
-  'one' => 1,
-  'two' => 2,
-  'three' => 3,
-  'foure' => 5,
-  'five' => 12,
-];
+//  Третье задание
+// Создать функцию которая считает сумму значений всех элементов массива произвольной глубины
 
-$secondArr = [
-  'one' => 1,
-  'seven' => 22,
-  'three' => 32,
-  'foure' => 5,
-  'five' => 13,
-  'six' => 37,
-];
+echo "<b>Третье задание</b><br />";
 
-//найти все элементы которые присутствую в первом и отсутствуют во втором
-echo "<br /> найти все элементы которые присутствую в первом и отсутствуют во втором :" . ' ';
-$result = array_diff($firstArr, $secondArr);
-print_r($result);
-
-
-//найти все элементы которые отсутствуют во втором  массиве и присутствуют в первом
-echo "<br /> найти все элементы которые отсутствуют во втором  массиве и присутствуют в первом :" . ' ';
-$result2 = array_diff($secondArr, $firstArr);
-print_r($result2);
-
-
-//найти все элементы значения которых совпадают
-echo "<br /> найти все элементы значения которых совпадают :" . ' ';
-$result3 = array_intersect($firstArr, $secondArr);
-print_r($result3) ."<br />";
-
-//найти все элементы значения которых отличается
-echo "<br /> найти все элементы значения которых отличаеться :" . ' ';
-$result4 = array_merge($result,$result2);
-print_r($result4);
-
-
-// Третий блок
-echo "<br /> <b> Третий блок </b> ";
-$lasttArr = [
-  'one' => 1,
-  'two' => [
-    'one' => 1,
-    'seven' => 22,
-    'three' => 32,
-  ],
-
-  'three' => [
-    'one' => 1,
-    'two' => 2,
-  ],
-
-  'foure' => 5,
-  'five' => [
-   'three' => 32,
-   'foure' => 5,
-   'five' => 12,
-],
-];
-
-//получить все вторые элементы вложенных массивов
-echo "<br /> получить все вторые элементы вложенных массивов : ";
-$k=0;
-// вывел всё из вложеных массивов
-// foreach($lasttArr['two'] as $key => $value)
-//     echo $value, '<br>';
-// foreach($lasttArr['three'] as $value)
-//     echo $value, '<br>';
-// foreach($lasttArr['five'] as $value)
-//     echo $value, '<br>';
-
-function secondElement($lasttArr) {
-    $result = [];
-    foreach ($lasttArr as $key => $value) {
-        if (is_array($value)){
-            $result[] = array_values($value)[1];
-        }
-    }
-    return $result;
+function arraySum($arr) {
+    $sum = 0;
+    foreach($arr as $elem)
+        $sum += $elem;
+    return $sum;
 }
-print_r(secondElement($lasttArr));
+$values = array(1,2,5,100,-30,30.5);
+echo arraySum($values); //выведет 108.5
 
+echo "<br />";
 
+// Создать функцию которая определит сколько квадратов меньшего размера можно вписать в квадрат большего размера размер возвращать в float
+echo "<b> Четвертое задание</b><br />";
 
-//var_dump($lasttArr['two'],['three'],['five']);
+$a = 9;
+$b = 4;
 
-//вывел все данные из массивов
-    // function foo($lasttArr) {
-    //   foreach ($lasttArr as $k => $v) {
-    //     if (is_array($v)) {
-    //       foo($v);
-    //     }
-    //     else {
-    //       echo "{$k} = {$v}<br>";
-    //     }
-    //   }
-    // }
-    // foo($lasttArr);
+echo squerCount($a, $b);
+echo "<br />";
+echo squerCount2($a, $b);
 
-
-
-//получить общее количество элементов в массиве
-echo "<br /> общее количество элементов в массиве = ";
-echo count($lasttArr, COUNT_RECURSIVE);
-
-//получить сумму всех значений в массиве
-function sumRecursive($lasttArr){
-  $sum = 0;
-  foreach ($lasttArr as $key => $value) {
-    if(is_array($value)){
-      $sum += sumRecursive ($value);
-    } else{
-      $sum += $value;
-    }
+function squerCount($big, $small){
+  $big *= $big;
+  $small *= $small;
+  if($big > $small){
+    echo (float)($big / $small);
+  }else {
+    echo (float)($small / $big);
   }
-  return $sum;
 }
-echo "<br />получить сумму всех значений в массиве = ";
-print_r(sumRecursive($lasttArr));
+// Этот вариант с целыми числами
+function squerCount2($big, $small){
+  $round = round($big / $small, 0, PHP_ROUND_HALF_DOWN);
+  echo $round * $round;
+}
 
 ?>
