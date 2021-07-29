@@ -36,12 +36,26 @@ echo "<br />";
 // Создать функцию которая считает сумму значений всех элементов массива произвольной глубины
 
 echo "<b>Третье задание</b><br />";
+ ///
+// function arraySum($arr) {
+//     $sum = 0;
+//     foreach($arr as $elem)
+//         $sum += $elem;
+//     return $sum;
+// }
+// $values = array(1,2,5,100,-30,30.5);
+// echo arraySum($values); //выведет 108.5
 
-function arraySum($arr) {
-    $sum = 0;
-    foreach($arr as $elem)
-        $sum += $elem;
-    return $sum;
+function arraySum($arr){
+  $sum = 0;
+  foreach ($arr as $key => $value) {
+    if(is_array($value)){
+      $sum += arraySum ($value);
+    } else{
+      $sum += $value;
+    }
+  }
+  return $sum;
 }
 $values = array(1,2,5,100,-30,30.5);
 echo arraySum($values); //выведет 108.5
