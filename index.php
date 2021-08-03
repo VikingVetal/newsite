@@ -1,90 +1,231 @@
 <?php
-echo "<b> Первое задание</b><br />";
-// Создать функцию определяющую какой тип данных ей передан и выводящей соответствующее сообщение.
-$data = array(7, 6, 9., NULL, new stdClass, 'строка');
+abstract class ParentClass
+{
+  public $a = 5;
+  public $b = 10;
+  // get
+  public function getA()
+  {
+    return $this -> a;
+  }
 
-foreach ($data as $value) {
-  dataType($value);
+  public function getB ()
+  {
+    return $this -> b ;
+  }
+// set
+  public function setA ($a)
+  {
+    return $this -> a = $a;
+  }
+
+  public function setB ($b)
+  {
+    return $this -> b = $b;
+  }
+
+  abstract protected function MyFunction($a) // не работает
+  {
+    return $this ->a + $this->b;
+  }
+
 }
+$parentObj = new ParentClass ();
+$parentObj -> getA(15);
+$parentObj -> getb(20);
+echo $parentObj -> a .' and ' .$parentObj -> b.'<br />';
+$parentObj -> setA(1);
+$parentObj -> setb(2);
+echo $parentObj -> a .' and ' .$parentObj -> b.'<br />';
 
-function dataType($val){
-  echo gettype($val). "<br />";
-}
+// Первый
+class FirstChild extends ParentClass
+{
+protected $num1 = 18;
+public function SumParent()
+  {
+  return $this->a + $this->num1;
+  }
 
-//Второе задание
-//Создать функцию которая считает все буквы b в переданной строке, в случае если передается не строка функция должна возвращать false
-echo "<b> Второе задание</b><br />";
-
-echo $data = "Brown bear, red book, best, studio, common, branch.". '<br />';//  строка для примера
-$b = 'b';
-
-everyB($data, $b);
-
-function everyB($string, $find){
-  if(gettype($string)=== 'string') {
-    echo "Функцию которая считает все буквы b в переданной строке. в данной строке : ". substr_count($string, $find).' '.'символов b';
-  } else {
-    echo 'false';
+  public function setNum1()
+  {
+    return $this -> num1 = $num1;
+  }
+  public function getNum1()
+  {
+    return $this -> num1 = $num1;
   }
 }
-//ubstr_count(mb_strtolower($string), $find) // как вариант с регистром, но после стал показывать на 1 больше
-echo "<br />";
+
+// Второй
+class SecondChild extends ParentClass
+{
+protected $num2 = 21;
+public function SumParent()
+  {
+  return $this->num2 - $this->b ;
+  }
+
+  public function setNum2()
+  {
+    return $this -> num2 = $num2;
+  }
+  public function getNum2()
+  {
+    return $this -> num2 = $num2;
+  }
+}
+
+// Третий
+final class ThirdChild extends ParentClass // Один наследник не должен быть наследуемым
+{
+protected $num3 = 4;
+public function SumParent()
+  {
+  return $this->num3 * $this->b ;
+  }
+  public function setNum3()
+  {
+    return $this -> num3 = $num3;
+  }
+  public function getNum3()
+  {
+    return $this -> num3 = $num3;
+  }
+}
 
 
+$firstChildObj = new FirstChild();
+echo $firstChildObj-> SumParent().'<br />';// сумма родителя ParentClass $a и FirstChild $num1
 
-//  Третье задание
-// Создать функцию которая считает сумму значений всех элементов массива произвольной глубины
+$secondChildobj = new SecondChild();
+echo $secondChildobj-> SumParent().'<br />';// разница  SecondChild $num2 и  родителя ParentClass $b
 
-echo "<b>Третье задание</b><br />";
- ///
-// function arraySum($arr) {
-//     $sum = 0;
-//     foreach($arr as $elem)
-//         $sum += $elem;
-//     return $sum;
-// }
-// $values = array(1,2,5,100,-30,30.5);
-// echo arraySum($values); //выведет 108.5
+$thirdChildrObj = new ThirdChild();
+echo $thirdChildrObj-> SumParent().'<br />';// результат умножения ThirdChild $num3 на родителя $b  = 40
 
-function arraySum($arr){
-  $sum = 0;
-  foreach ($arr as $key => $value) {
-    if(is_array($value)){
-      $sum += arraySum ($value);
-    } else{
-      $sum += $value;
+
+//Дочерние классы FirstChild
+class sub1_FirstChild extends FirstChild
+{
+  protected $subNum = 2;
+  public function getSubNum()
+  {
+    return $this -> subNum;
+  }
+  public function setSubNum()
+  {
+    return $this -> subNum;
+  }
+
+  //метод который выполняет одно математическое действие с данными родителя и своими данными
+  public function SumParent()
+    {
+    return $this->num1 * $this->subNum ;
     }
-  }
-  return $sum;
-}
-$values = array(1,2,5,100,-30,30.5);
-echo arraySum($values); //выведет 108.5
-
-echo "<br />";
-
-// Создать функцию которая определит сколько квадратов меньшего размера можно вписать в квадрат большего размера размер возвращать в float
-echo "<b> Четвертое задание</b><br />";
-
-$a = 9;
-$b = 4;
-
-echo squerCount($a, $b);
-echo "<br />";
-echo squerCount2($a, $b);
-
-function squerCount($big, $small){
-  $big *= $big;
-  $small *= $small;
-  if($big > $small){
-    echo (float)($big / $small);
-  }else {
-    echo (float)($small / $big);
+  // метод который выполняет любое математическое действие со свойством корневого класса и своим свойством
+  public function SumHeadParent()
+  {
+    return $this->a + $this->subNum ;
   }
 }
-// Этот вариант с целыми числами
-function squerCount2($big, $small){
-  $round = round($big / $small, 0, PHP_ROUND_HALF_DOWN);
-  echo $round * $round;
+
+
+
+class sub2_FirstChild extends FirstChild
+{
+  protected $subNum2 = 3;
+  public function getSubNum()
+  {
+    return $this -> subNum2;
+  }
+  public function setSubNum()
+  {
+    return $this -> subNum;
+  }
+
+  //метод который выполняет одно математическое действие с данными родителя и своими данными
+  public function SumParent()
+    {
+    return $this->num1 * $this->subNum2 ;
+    }
+  // метод который выполняет любое математическое действие со свойством корневого класса и своим свойством
+  public function SumHeadParent()
+  {
+    return $this->a + $this->subNum2 ;
+  }
 }
+
+$sub1_firstChildObj = new sub1_FirstChild();
+echo $sub1_firstChildObj-> SumParent().'<br />'; // 18*2
+echo $sub1_firstChildObj-> SumHeadParent().'<br />';// 5+2
+
+$sub2_FirstChildObj = new sub2_FirstChild();
+echo $sub2_FirstChildObj-> SumParent().'<br />';
+echo $sub2_FirstChildObj-> SumHeadParent().'<br />';
+
+
+
+//Дочерние классы SecondChild
+
+class sub1_SecondChild extends SecondChild
+{
+  protected $subNum = 4;
+  public function getSubNum()
+  {
+    return $this -> subNum;
+  }
+  public function setSubNum()
+  {
+    return $this -> subNum;
+  }
+
+  //метод который выполняет одно математическое действие с данными родителя и своими данными
+  public function SumParent()
+    {
+    return $this->num2 * $this->subNum ;
+    }
+  // метод который выполняет любое математическое действие со свойством корневого класса и своим свойством
+  public function SumHeadParent()
+  {
+    return $this->a + $this->subNum ;
+  }
+}
+
+
+$sub1_fSecondChildObj = new sub1_SecondChild();
+echo $sub1_fSecondChildObj-> SumParent().'<br />';
+echo $sub1_fSecondChildObj-> SumHeadParent().'<br />';
+
+
+$sub2_fSecondChildObj = new sub2_SecondChild();
+echo $sub2_fSecondChildObj-> SumParent().'<br />';
+echo $sub2_fSecondChildObj-> SumHeadParent().'<br />';
+
+class sub2_SecondChild extends SecondChild
+{
+  protected $subNum2 = 7;
+  public function getSubNum()
+  {
+    return $this -> subNum2;
+  }
+  public function setSubNum()
+  {
+    return $this -> subNum2;
+  }
+
+  //метод который выполняет одно математическое действие с данными родителя и своими данными
+  public function SumParent()
+    {
+    return $this->num2 * $this->subNum2 ;
+    }
+  // метод который выполняет любое математическое действие со свойством корневого класса и своим свойством
+  public function SumHeadParent()
+  {
+    return $this->a + $this->subNum2 ;
+  }
+}
+
+
 
 ?>
